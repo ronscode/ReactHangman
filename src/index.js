@@ -76,36 +76,94 @@ class ButtonPad extends React.Component {
 }
 class Letter extends React.Component {
   render() {
-    return <span className="letter">{this.props.value}</span>;
+    return (
+      <span className="letter">{this.props.found ? this.props.value : ""}</span>
+    );
   }
 }
 class GameBoard extends React.Component {
   constructor(props) {
     super(props);
+    const targetWord = props.targetWord;
+    const targetLetters = targetWord.split("");
+    const targetLetterMap = {};
+
+    targetLetters.forEach((letter, index) => {
+      targetLetterMap[index] = { letter: letter, show: false };
+    });
+
+    this.state = {
+      targetWord: targetWord,
+      targetLetters: targetLetterMap,
+      remainingMisses: parseInt(props.misses),
+      status: "Playing"
+    };
 
     this.checkLetterHandler = this.checkLetter.bind(this);
   }
 
+  // Check letter function
+
   checkLetter(letter) {
-    alert("GameBoard Check Letter: " + letter);
+    console.log("GameBoard Check Letter: " + letter);
+
+    if (
+      this.state.targetWord.toLowerCase().indexOf(letter.toLowerCase()) === -1
+    ) {
+      const remainingMisses = this.state.remainingMisses - 1;
+      const status = remainingMisses === 0 ? "Game Over" : "Playing";
+
+      this.setState({
+        remainingMisses: remainingMisses,
+        status: status
+      });
+      return;
+    }
+
+    let letterMap = this.state.targetLetters;
+    for (let i = 0; i < this.state.targetWord.length; i++) {
+      const letterInWord = this.state.targetWord[i];
+      if (letterInWord.toLowerCase() === letter.toLowerCase()) {
+        letterMap[i].show = true;
+      }
+    }
+
+    const allValues = Object.values(this.state.targetLetters).map(
+      val => val.show
+    );
+    const status = allValues.every(val => val === true);
+
+    this.setState({
+      targetLetters: letterMap,
+      status: status ? "You Win!" : "Playing"
+    });
   }
 
   render() {
+    const remaining = "Remaining Misses: " + this.state.remainingMisses;
+    const status = "Game Status: " + this.state.status;
+
     let letters = [];
     this.props.targetWord.split("").forEach((letter, index) => {
-      letters.push(<Letter value={letter} key={index} />);
+      const letterMap = this.state.targetLetters[index];
+      const show = letterMap.show;
+      letters.push(<Letter value={letter} key={index} found={show} />);
     });
 
     return (
       <div>
+        <p>{remaining}</p>
+        <p>{status}</p>
         {letters}
         <br />
         <br />
         <div>
-          <ButtonPad
-            targetWord={this.props.targetWord}
-            letterClick={this.checkLetterHandler}
-          />
+          {this.state.status === "Playing" && (
+            <ButtonPad
+              targetWord={this.props.targetWord}
+              letterClick={this.checkLetterHandler}
+            />
+          )}
         </div>
       </div>
     );
@@ -118,7 +176,7 @@ class Hangman extends React.Component {
         <h1>React Hangman!</h1>
         <p>Welcome to my game!</p>
         <div>
-          <GameBoard targetWord="Zaphod" />
+          <GameBoard targetWord="Zaphod" misses="10" />
         </div>
       </div>
     );
