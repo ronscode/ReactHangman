@@ -26,6 +26,9 @@
   width: 34px;
   outline: none;
 }
+.letter-button:hover {
+  background-color: powderblue;
+}
 
 .found {
   color: limegreen;
