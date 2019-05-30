@@ -105,6 +105,8 @@ class GameBoard extends React.Component {
     this.checkLetterHandler = this.checkLetter.bind(this);
   }
 
+  // Restart game component
+
   // Check letter function
 
   checkLetter(letter) {
@@ -130,6 +132,30 @@ class GameBoard extends React.Component {
         letterMap[i].show = true;
       }
     }
+
+    // class Toggle extends React.Component {
+    //   constructor(props) {
+    //     super(props);
+    //     this.state = { isToggleOn: true };
+
+    //     // This binding is necessary to make `this` work in the callback
+    //     this.handleClick = this.handleClick.bind(this);
+    //   }
+
+    //   handleClick() {
+    //     this.setState(prevState => ({
+    //       isToggleOn: !prevState.isToggleOn
+    //     }));
+    //   }
+
+    //   render() {
+    //     return (
+    //       <button onClick={this.handleClick}>
+    //         {this.state.isToggleOn ? "ON" : "OFF"}
+    //       </button>
+    //     );
+    //   }
+    // }
 
     const allValues = Object.values(this.state.targetLetters).map(
       val => val.show
@@ -166,6 +192,15 @@ class GameBoard extends React.Component {
               targetWord={this.props.targetWord}
               letterClick={this.checkLetterHandler}
             />
+          )}
+        </div>
+        <div>
+          {this.state.status != "Playing" && (
+            // and in your components render or any other place add the reset button
+
+            <button type="button" onClick={console.log("Hello Universe")}>
+              <span>Reload</span>
+            </button>
           )}
         </div>
       </div>
@@ -224,6 +259,7 @@ class Hangman extends React.Component {
       <div>
         <h1>React Hangman!</h1>
         <p>Welcome to my game!</p>
+        <div />
         <div>
           {this.state.targetWord === "" ? (
             <p>Loading...</p>
