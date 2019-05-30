@@ -124,7 +124,8 @@ export default class GameBoard extends React.Component {
           )}
         </div>
         <p>{remaining}</p>
-        <p>{status}</p>
+
+        <div />
         {letters}
         <br />
         <br />

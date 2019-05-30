@@ -12,6 +12,9 @@
   text-align: center;
   width: 34px;
 }
+.text-green {
+  color: lime;
+}
 
 .letter-button {
   float: left;

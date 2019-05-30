@@ -69,7 +69,7 @@ export default class ButtonPad extends React.Component {
   render() {
     const letterGrid = this.state.letters.map((row, index) => (
       <div key={index} className="text-center">
-        <Row className="text-center">
+        <Row className="text-center ">
           <Col> {row.map(letter => this.renderButton(letter))}</Col>
         </Row>
 
