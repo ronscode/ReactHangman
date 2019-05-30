@@ -69,7 +69,10 @@ class ButtonPad extends React.Component {
 
   render() {
     const letterGrid = this.state.letters.map((row, index) => (
-      <p key={index}>{row.map(letter => this.renderButton(letter))}</p>
+      <div key={index}>
+        <p>{row.map(letter => this.renderButton(letter))}</p>
+        <br />
+      </div>
     ));
     return <div>{letterGrid}</div>;
   }
@@ -170,13 +173,63 @@ class GameBoard extends React.Component {
   }
 }
 class Hangman extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      targetWord: ""
+    };
+  }
+
+  componentDidMount() {
+    var bunchOfNames = ["Zaphod", "Hal", "Tardis"];
+    var rand = bunchOfNames[Math.floor(Math.random() * bunchOfNames.length)];
+
+    this.setState({
+      targetWord: rand
+    });
+    // var request = require("request");
+    // var options = {
+    //   method: "GET",
+    //   url: "https://wordsapiv1.p.mashape.com/words/",
+    //   qs: { random: "true" },
+    //   headers: {
+    //     "Postman-Token": "7f4c714d-5283-4083-9de7-10ac63374473",
+    //     "cache-control": "no-cache",
+    //     "X-Mashape-Key": "7ee2744e37mshd8a5306a0515f48p13e6a7jsn51a27e9f1337"
+    //   }
+    // };
+
+    // request(options, function(error, response, word) {
+    //   if (error)
+    //     throw new Error(error)
+    //       .then(console.log(word))
+    //       .then(response => response.json())
+    //       .then(data =>
+    //         this.setState({
+    //           targetWord: data[0]["word"]
+    //         })
+    //       );
+    //   //   console.log([word]);
+    //   //   console.log(response.body[0].word);
+    // });
+
+    // fetch("https://wordsapiv1.p.mashape.com/words/?random=true")
+    //   .then(response => response.json())
+    //   .then(data => data[1]["word"]);
+  }
+
   render() {
     return (
       <div>
         <h1>React Hangman!</h1>
         <p>Welcome to my game!</p>
         <div>
-          <GameBoard targetWord="Zaphod" misses="10" />
+          {this.state.targetWord === "" ? (
+            <p>Loading...</p>
+          ) : (
+            <GameBoard targetWord={this.state.targetWord} misses="10" />
+          )}
         </div>
       </div>
     );
