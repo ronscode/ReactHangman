@@ -10,7 +10,7 @@ Third npm start.
 
 ### `To Add`
 
-More random names from server
-Scorekeeping
-Top 10 leaders board
-Style components
+-More random names from server
+-Scorekeeping
+-Top 10 leaders board
+-Style components
